@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:1.25.2-alpine
+    container_name: common-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes:
+      - ./.nginx/templates/:/etc/nginx/templates/:ro
+      - ./.nginx/dhparam.d/:/etc/nginx/dhparam.d/:ro
+      - ./.certbot/conf/:/etc/nginx/ssl/:ro
+      - ./.certbot/www:/var/www/certbot/:ro
+    environment:
+      - FKS_PORT
+      - SUP_PORT
+      - MEDOC_PORT
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./.certbot/www/:/var/www/certbot/:rw
+      - ./.certbot/conf/:/etc/letsencrypt/:rw
