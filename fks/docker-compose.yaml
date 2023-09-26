@@ -22,7 +22,7 @@ x-app-environment:
 
 services:
   pg:
-    container_name: pg
+    container_name: fks-pg
     image: postgres:15.3-alpine
     restart: always
     environment:
@@ -33,7 +33,7 @@ services:
 
   admin:
     <<: *base-app-conf
-    container_name: admin
+    container_name: fks-admin
     environment:
       <<: *base-app-environment
       HOST: "0.0.0.0"
@@ -44,7 +44,7 @@ services:
 
   api:
     <<: *base-app-conf
-    container_name: api
+    container_name: fks-api
     environment: *base-app-environment
     env_file: './api.env'
     command:
@@ -57,7 +57,7 @@ services:
       - "8000"
 
   nginx:
-    container_name: 'nginx'
+    container_name: fks-nginx
     image: nginx:1.25-alpine
     restart: always
     volumes:

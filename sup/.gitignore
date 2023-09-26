@@ -1,0 +1,4 @@
+/data/pg/*
+/data/backups/*
+/*.env*
+!/*.env.example

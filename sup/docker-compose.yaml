@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  pg:
+    container_name: sup-pg
+    image: postgres:15.3-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PASSWORD
+    volumes:
+      - ./data/pg:/var/lib/postgresql/data
+
+  app:
+    container_name: sup-app
+    image: alta7700/sup:${APP_VERSION}
+    restart: always
+    volumes:
+      - ./app.env:/app/.env:ro
+      - ./data/badges/:/app/badges/:ro
+      - ./data/static/:/app/static/:rw
+    depends_on:
+      - pg
+
+  nginx:
+    container_name: sup-nginx
+    image: nginx:1.25-alpine
+    restart: always
+    volumes:
+      - ./data/nginx/:/etc/nginx/conf.d/:ro
+      - ./data/static/:/www/app/static/:ro
+    ports:
+      - "${SUP_PORT}:80"
+    depends_on:
+      - app
