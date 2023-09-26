@@ -1,0 +1,53 @@
+version: "3.8"
+
+x-app-common: &app
+  image: alta7700/medoc:${APP_VERSION}
+  restart: always
+  volumes:
+    - ./data/static/:/app/static:rw
+    - ./data/media/:/app/media:rw
+    - ./app.env:/app/.env:ro
+
+services:
+  pg:
+    container_name: medoc-pg
+    image: postgres:15.3-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PASSWORD
+    volumes:
+      - ./data/pg:/var/lib/postgresql/data
+
+  redis:
+    container_name: medoc-redis
+    image: redis:7.2.1-alpine
+    restart: always
+    command: redis-server --save 60 1 --loglevel warning
+
+  app:
+    container_name: medoc-app
+    <<: *app
+
+  app-celery:
+    container_name: medoc-app-celery
+    <<: *app
+    command: celery -A MEDoc worker -l info
+
+  app-celery-beat:
+    container_name: medoc-celery-beat
+    <<: *app
+    command: celery -A MEDoc beat --loglevel=INFO
+
+  nginx:
+    container_name: medoc-nginx
+    image: nginx:1.25-alpine
+    restart: always
+    volumes:
+      - ./data/nginx/:/etc/nginx/conf.d/:ro
+      - ./data/static/:/www/app/static/:ro
+      - ./data/media/:/www/app/media/:ro
+    ports:
+      - "${MEDOC_PORT}:80"
+    depends_on:
+      - app

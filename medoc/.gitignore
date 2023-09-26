@@ -1,5 +1,6 @@
 /data/pg/*
 /data/backups/*
 /data/static/*
+/data/media/*
 /*.env*
 !/*.env.example
