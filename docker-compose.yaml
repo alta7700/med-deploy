@@ -17,6 +17,7 @@ services:
       - FKS_PORT
       - SUP_PORT
       - MEDOC_PORT
+      - CLAIMS_PORT
   certbot:
     image: certbot/certbot:latest
     volumes:

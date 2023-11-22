@@ -2,11 +2,13 @@
 FKS_PORT  
 SUP_PORT  
 MEDOC_PORT  
+CLAIMS_PORT  
 
 ### Создание dhparam  
 `openssl dhparam -out ~/projects/.nginx/dhparam.d/fks.pem 2048`
 `openssl dhparam -out ~/projects/.nginx/dhparam.d/sup.pem 2048`
 `openssl dhparam -out ~/projects/.nginx/dhparam.d/medoc.pem 2048`
+`openssl dhparam -out ~/projects/.nginx/dhparam.d/claims.pem 2048`
 
 ### Создание сертификатов  
 ```
