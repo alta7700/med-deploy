@@ -3,6 +3,12 @@ version: "3.8"
 x-app-common: &app
   image: alta7700/medoc:${APP_VERSION}
   restart: always
+  environment:
+    ALLOWED_HOSTS: $MEDOC_DOMAIN
+    CSRF_TRUSTED_ORIGINS: https://$MEDOC_DOMAIN
+    DB_USER: $PG_USER
+    DB_PASSWORD: $PG_PASSWORD
+    REDIS_CELERY: redis://redis:6379/0
   volumes:
     - ./data/static/:/app/static:rw
     - ./data/media/:/app/media:rw
@@ -43,6 +49,8 @@ services:
     container_name: medoc-nginx
     image: nginx:1.25-alpine
     restart: always
+    environment:
+      DOMAIN: $MEDOC_DOMAIN
     volumes:
       - ./data/nginx/:/etc/nginx/conf.d/:ro
       - ./data/static/:/www/app/static/:ro

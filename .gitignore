@@ -1,3 +1,6 @@
 /.idea
 /.certbot
 /.nginx/dhparam.d/*
+
+*.env*
+!*.env.example

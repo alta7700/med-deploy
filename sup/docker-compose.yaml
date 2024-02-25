@@ -15,6 +15,11 @@ services:
     container_name: sup-app
     image: alta7700/sup:${APP_VERSION}
     restart: always
+    environment:
+      ALLOWED_HOSTS: $SUP_DOMAIN
+      CSRF_TRUSTED_ORIGINS: https://$SUP_DOMAIN
+      DB_USER: $PG_USER
+      DB_PASSWORD: $PG_PASSWORD
     volumes:
       - ./app.env:/app/.env:ro
       - ./data/badges/:/app/badges/:ro
@@ -26,6 +31,8 @@ services:
     container_name: sup-nginx
     image: nginx:1.25-alpine
     restart: always
+    environment:
+      DOMAIN: $SUP_DOMAIN
     volumes:
       - ./data/nginx/:/etc/nginx/conf.d/:ro
       - ./data/static/:/www/app/static/:ro

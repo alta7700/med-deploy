@@ -1,7 +1,7 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name sup.tascan.ru;
+    server_name $SUP_DOMAIN;
 
     server_tokens off;
 
@@ -17,10 +17,10 @@ server {
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name sup.tascan.ru;
+    server_name $SUP_DOMAIN;
 
-    ssl_certificate /etc/nginx/ssl/live/sup.tascan.ru/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/live/sup.tascan.ru/privkey.pem;
+    ssl_certificate /etc/nginx/ssl/live/$SUP_DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/$SUP_DOMAIN/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
     ssl_dhparam /etc/nginx/dhparam.d/sup.pem;
