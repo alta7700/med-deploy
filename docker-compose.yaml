@@ -1,26 +1,15 @@
-version: "3.8"
-
 services:
   nginx:
-    image: nginx:1.25-alpine
-    container_name: common-nginx
+    image: nginx:1.27.2-alpine
     ports:
       - "80:80"
-      - "443:443"
-    restart: always
     volumes:
-      - ./.nginx/templates/:/etc/nginx/templates/:ro
-      - ./.nginx/dhparam.d/:/etc/nginx/dhparam.d/:ro
-      - ./.certbot/conf/:/etc/nginx/ssl/:ro
-      - ./.certbot/www:/var/www/certbot/:ro
+      /root/med/nginx.conf:/etc/nginx/templates/nginx.conf:ro
+      /root/med/medoc/static:/www/medoc/static:ro
+      /root/med/medoc/media:/www/medoc/media:ro
+      /root/sup/medoc/static:/www/sup/static:ro
     environment:
-      - SUP_PORT
+      - SUP_CONTAINER
       - SUP_DOMAIN
-      - MEDOC_PORT
+      - MEDOC_CONTAINER
       - MEDOC_DOMAIN
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./.certbot/www/:/var/www/certbot/:rw
-      - ./.certbot/conf/:/etc/letsencrypt/:rw
