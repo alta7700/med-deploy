@@ -4,7 +4,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - /root/med/nginx.conf:/etc/nginx/templates/nginx.conf:ro
+      - /root/med/nginx.conf:/etc/nginx/templates/nginx.conf.template:ro
       - /root/med/medoc/static:/www/medoc/static:ro
       - /root/med/medoc/media:/www/medoc/media:ro
       - /root/sup/medoc/static:/www/sup/static:ro
@@ -13,3 +13,4 @@ services:
       - SUP_DOMAIN
       - MEDOC_CONTAINER
       - MEDOC_DOMAIN
+    restart: always
