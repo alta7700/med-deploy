@@ -4,10 +4,10 @@ services:
     ports:
       - "80:80"
     volumes:
-      /root/med/nginx.conf:/etc/nginx/templates/nginx.conf:ro
-      /root/med/medoc/static:/www/medoc/static:ro
-      /root/med/medoc/media:/www/medoc/media:ro
-      /root/sup/medoc/static:/www/sup/static:ro
+      - /root/med/nginx.conf:/etc/nginx/templates/nginx.conf:ro
+      - /root/med/medoc/static:/www/medoc/static:ro
+      - /root/med/medoc/media:/www/medoc/media:ro
+      - /root/sup/medoc/static:/www/sup/static:ro
     environment:
       - SUP_CONTAINER
       - SUP_DOMAIN
